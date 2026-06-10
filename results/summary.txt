@@ -1,0 +1,14 @@
+Single-cell RNA-seq analysis of 3k PBMCs (10x Genomics)
+=======================================================
+
+Cells after QC : 2638
+Genes (HVG)    : 1838
+Clusters       : 6
+
+Cell types identified:
+  CD4 T              1182 cells
+  CD14 Monocyte      636 cells
+  NK                 430 cells
+  B                  341 cells
+  Dendritic          36 cells
+  Platelet           13 cells
