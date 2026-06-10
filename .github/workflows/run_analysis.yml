@@ -1,0 +1,34 @@
+name: Run scRNA-seq analysis
+# Runs the real single-cell analysis on the 10x PBMC3k dataset and commits the
+# generated figures and result tables back to the repo, so the README shows
+# real, reproducible output. Runs on every push to main and on demand.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scrna_pbmc_analysis.py'
+      - 'requirements.txt'
+      - '.github/workflows/run_analysis.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5a
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run the analysis
+        run: python scrna_pbmc_analysis.py
+      - name: Commit generated figures and results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add figures results
+          git diff --cached --quiet || git commit -m "Update analysis outputs [skip ci]"
+          git push || true
